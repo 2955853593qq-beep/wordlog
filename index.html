@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content"><meta name="theme-color" content="#eaf5ef"><title>Wordlog · 个人英语词书</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+<header class="header"><a class="brand" href="#add">Wordlog<span>个人英语词书</span></a><span class="local">仅保存在此浏览器</span></header>
+<main>
+<section id="add-page">
+<div class="intro"><span class="eyebrow">遇见一个词，记下一点新知</span><h1>把陌生的意思，<br>留在这里。</h1><p>记录生词，也记录熟悉单词的新义项。</p></div>
+<div class="stats"><div><strong id="word-count">0</strong><span>已记录单词</span></div><div><strong id="sense-count">0</strong><span>已记录义项</span></div></div>
+<form id="add-form" class="card">
+<h2>记一个单词</h2>
+<label for="word">英文单词 <span class="required">必填</span></label><input id="word" name="word" required maxlength="200" placeholder="例如 issue" autocomplete="off" autocapitalize="none" spellcheck="false" lang="en" aria-describedby="word-help"><p id="word-help" class="help">首尾空格会自动去除，大小写视为同一个单词。</p>
+<div id="existing" class="existing" hidden aria-live="polite"></div>
+<label for="pos">词性 <span class="optional">选填</span></label><input id="pos" name="pos" maxlength="200" placeholder="例如 pron.、n./v.、modal v." autocomplete="off" data-pos-shortcuts aria-describedby="pos-help">
+<p id="pos-help" class="help">点选常用词性，也可以自由输入或修改。</p>
+<label for="definition">中文释义 <span class="required">必填</span></label><textarea id="definition" name="definition" required maxlength="5000" rows="3" placeholder="写下这次遇到的意思"></textarea>
+<button id="save" class="primary" type="submit" disabled>正在读取词书…</button>
+<p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+</form><p class="footnote">简单记录，安心继续学习</p>
+</section>
+<section id="book-page" hidden><div class="intro"><span class="eyebrow">每一次记录，都算数</span><h1>我的词书</h1><p id="book-summary"></p></div><label for="search">搜索单词</label><input id="search" type="search" placeholder="输入英文单词" autocomplete="off" autocapitalize="none"><div class="sense-actions"><button id="copy-wordlist" type="button" disabled>复制可读词表</button><button id="download-txt" type="button">导出 TXT</button></div>
+<p id="wordlist-status" class="feedback" role="status" aria-live="polite"></p>
+<div id="wordlist-fallback" hidden><label for="wordlist-output">可读词表（仅供阅读，不能恢复数据）</label><textarea id="wordlist-output" rows="7" readonly spellcheck="false"></textarea><div class="sense-actions"><button id="select-wordlist" type="button">全选词表</button></div></div><p id="book-feedback" class="feedback" role="status" aria-live="polite"></p><div id="word-list" class="word-list"></div></section>
+<section id="forgotten-page" hidden><div class="intro"><span class="eyebrow">把注意力留给薄弱的意思</span><h1>经常忘记</h1><p>按具体义项的忘记次数排序，显示所有忘记过的义项。</p></div><div id="forgotten-list" class="word-list"></div></section>
+
+<details id="backup-panel" class="backup-panel" hidden>
+<summary>数据管理 · 备份与恢复</summary>
+<p>备份是带中文说明的可读文本，包含单词、释义和忘记历史。请完整复制并保存在备忘录中，不要删改编号或记录。</p>
+<div class="sense-actions"><button id="copy-backup" type="button" disabled>复制完整备份</button></div>
+<div id="backup-fallback" hidden><label for="backup-output">完整备份文本（请手动复制）</label><textarea id="backup-output" rows="6" readonly spellcheck="false"></textarea><div class="sense-actions"><button id="select-backup" type="button">全选备份文本</button></div></div>
+<label for="backup-input">粘贴完整备份</label><textarea id="backup-input" rows="6" placeholder="在这里粘贴 Wordlog 完整备份文本" spellcheck="false" autocapitalize="none" autocomplete="off"></textarea>
+<div class="sense-actions"><button id="check-backup" type="button" disabled>检查备份</button><button id="restore-backup" type="button" disabled>恢复词书</button></div>
+<p class="help">恢复会完整替换当前设备上的词书，不会自动合并。</p>
+<div class="sense-actions"><button id="clear-wordbook" type="button" disabled>清空词书</button></div><p class="help">清空会删除当前浏览器中的全部词书数据，请确认后操作。</p><p id="backup-status" class="feedback" role="status" aria-live="polite"></p>
+</details>
+</main>
+<nav aria-label="主要导航"><a href="#add" id="add-tab" aria-current="page">＋<span>添加</span></a><a href="#book" id="book-tab">▤<span>我的词书</span></a><a href="#forgotten" id="forgotten-tab">↻<span>经常忘记</span></a></nav>
+<script>
+window.wordlogStartupTimer = setTimeout(function () {
+  var save = document.getElementById('save');
+  if (save.textContent === '正在读取词书…') {
+    save.textContent = '加载未完成，请刷新';
+    document.getElementById('feedback').textContent = '页面脚本或本地存储未能加载。请通过 http://127.0.0.1:8765 打开，或检查浏览器是否允许保存网站数据。';
+    document.getElementById('feedback').classList.add('error');
+  }
+}, 10000);
+</script>
+<script src="db.js"></script>
+<script src="pos-input.js"></script>
+<script src="backup.js"></script>
+
+<script src="app.js"></script>
+</body></html>
+
+
+
+
